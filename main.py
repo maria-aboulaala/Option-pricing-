@@ -13,46 +13,43 @@ with st.expander("Presentation"):
 
     st.markdown(
     """
-> Cette presentation est faite dans le cadre du projet Pricing des options europeen
+> Cette presentation est faite dans le cadre du projet Evaluation des options europeennes par la methode de MonteCarlo dans le modele de Black-Scholes
 - Realiser par : Aboulaala Maria 
 - Encadrer par : Pr. Brahim El Asri
    """
 )
 
 st.markdown(""" 
->Les parametres demander par l'utilisateur sont:
-S: spot price of the underlying asset \n
-K: strike price of the option \n
-r: risk-free interest rate \n
-sigma: volatility of the underlying asset \n
-T: time to expiration (in years) \n
-n_simulations: number of simulations to run  \n
+Les parametres demander par l'utilisateur sont: \n
+>S: est le prix actuel de l actif sous jacent (par exemple une action \n
+>K:  est le prix d'exercice de l'option \n
+>r: est le taux d'intérêt sans risque \n
+>sigma: volatilite \n
+>T: est la durée restante de l'option ; \n
+>n_simulations: number of simulations   \n
                 
                 """)
+
 st.subheader('Entrez les parametres: :key: ')
 
 
 with st.form(key="my_form"):
-    T = st.number_input('le temps d expiration en annee', step= 1)   
+    T = st.number_input('la durée restante de l option', step= 1)   
     date = st.date_input('La date')
     stock_name = st.selectbox(
     'Le symbole de stock',
     ('AAPL', 'MSFT', 'META', 'GOOG', 'AMZN'))
     nSim = st.number_input('Le nombre de simulation', step=1, min_value=1)
-    K = st.number_input('Le strike de l option')
-    r = st.number_input('risk free', min_value=0, max_value=1)
+    K = st.number_input('le prix d exercice de l option')
+    r = st.number_input('le taux d intérêt sans risque', min_value=0, max_value=1)
+    
     st.form_submit_button("Simuler")
 
-end_date = datetime.today()
-stock_data = yf.download(
-    stock_name,
-    start = date,
-    end= date
-)
 
 
-st.subheader('Informations du stock choisi: :1234: ')
-st.dataframe(stock_data, use_container_width=True)
+
+
+
 
 
 
@@ -108,5 +105,6 @@ call_price = black_scholes_monte_carlo_call(S, K, r, sigma, T, n_simulations)
 put_price = black_scholes_monte_carlo_put(S, K, r, sigma, T, n_simulations)
 
 st.subheader('Resultats:key: ')
-st.write(call_price)
-st.write(put_price)
+st.write('la valeur du call est',call_price)
+st.write('la valeur du put est',put_price)
+
